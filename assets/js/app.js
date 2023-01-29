@@ -2,51 +2,42 @@ const grid = document.getElementById('grid');
 const timer = document.getElementById('timer');
 const result = document.getElementById('result');
 const startStop = document.getElementById('start-stop');
-const rows = 9;
-const columns = 9;
+const rows = 9; // Needs to be an odd number
+const columns = rows;
 let squares,
-    currentIndex = 76;
+    currentIndex = 76,
+    typeId = 1;
 
 function createGameBoard() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             const square = document.createElement('div');
+            square.classList.add('square');
             if (i === 0) {
-                square.classList.add('square');
                 if (j === 4) {
-                    square.classList.add('square', 'end')
+                    square.dataset.game = 'end';
                 }
             } else if (i === rows - 1) {
-                square.classList.add('square');
                 if (j === 4) {
-                    square.classList.add('square', 'start')
+                    square.dataset.game = 'start';
                 }
-            } else if (i === 4) {
-                square.classList.add('square');
-            } else if (i === 1 || i === 7) {
-                square.classList.add('square');
             } else if ((i > 1 && i < 4) || (i > 4 && i < 7)) {
                 if (i % 2 !== 0) {
-                    square.classList.add('square', 'left');
+                    square.dataset.obstacle = 'right';
+                    square.dataset.typeId = typeId;
+                    typeId++;
                 } else {
-                    square.classList.add('square', 'right');
+                    square.dataset.obstacle = 'left';
+                    square.dataset.typeId = typeId;
+                    typeId++;
                 }
+                if (typeId > 5) typeId = 1;
             }
             grid.append(square);
         }
     }
     squares = document.querySelectorAll('.square');
 }
-
-// function createBoard() {
-//     for (let i = 0; i < rows; i++) {
-//         for (let j = 0; j < columns; j++) {
-//
-//             grid.append(square);
-//         }
-//     }
-//     squares = document.querySelectorAll('.square');
-// }
 
 createGameBoard();
 

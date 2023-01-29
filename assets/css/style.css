@@ -10,22 +10,28 @@
     aspect-ratio: 1;
 }
 
-.end {
-    background-color: darkred;
+[data-game='end'] {
+    background-color: red;
 }
 
-.start {
+[data-game='start'] {
     background-color: yellow;
 }
 
-.left {
-    background-color: lightblue;
-}
+/*[data-obstacle='left'] {*/
+/*    background-color: lightblue;*/
+/*}*/
 
-.right {
-    background-color: lightgray;
-}
+/*[data-obstacle='right'] {*/
+/*    background-color: lightgray;*/
+/*}*/
 
 .frog {
     background-color: forestgreen;
+}
+
+[data-type-id='1'],
+[data-type-id='2'],
+[data-type-id='3'] {
+    background-color: brown;
 }
