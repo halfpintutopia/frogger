@@ -11,7 +11,7 @@
 }
 
 .end {
-    background-color: darkgreen;
+    background-color: darkred;
 }
 
 .start {
@@ -24,4 +24,8 @@
 
 .right {
     background-color: lightgray;
+}
+
+.frog {
+    background-color: forestgreen;
 }

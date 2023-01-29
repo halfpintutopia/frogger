@@ -2,9 +2,10 @@ const grid = document.getElementById('grid');
 const timer = document.getElementById('timer');
 const result = document.getElementById('result');
 const startStop = document.getElementById('start-stop');
-const sqaures = document.querySelectorAll('square');
 const rows = 9;
 const columns = 9;
+let squares,
+    currentIndex = 76;
 
 function createGameBoard() {
     for (let i = 0; i < rows; i++) {
@@ -34,12 +35,45 @@ function createGameBoard() {
             grid.append(square);
         }
     }
+    squares = document.querySelectorAll('.square');
 }
+
+// function createBoard() {
+//     for (let i = 0; i < rows; i++) {
+//         for (let j = 0; j < columns; j++) {
+//
+//             grid.append(square);
+//         }
+//     }
+//     squares = document.querySelectorAll('.square');
+// }
 
 createGameBoard();
 
-function moveFrog() {
-    console.log('moved');
+function moveFrog(e) {
+    console.log(e.key);
+    squares[currentIndex].classList.remove('frog')
+
+    switch (e.key) {
+        case 'w':
+        case 'W':
+            currentIndex < columns ? currentIndex : currentIndex -= columns;
+            break;
+        case 's':
+        case 'S':
+            currentIndex > (columns * (rows - 1)) ? currentIndex : currentIndex += columns;
+            break;
+        case 'a':
+        case 'A':
+            currentIndex === 0 ? currentIndex : currentIndex--;
+            break;
+        case 'd':
+        case 'D':
+            currentIndex === columns * rows - 1 ? currentIndex : currentIndex++;
+            break;
+    }
+    console.log(currentIndex);
+    squares[currentIndex].classList.add('frog')
 }
 
 document.addEventListener('keyup', moveFrog);
