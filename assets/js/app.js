@@ -15,7 +15,8 @@ let squares,
     currentIndex = 76,
     typeId = 1,
     timerId,
-    currentTime = 5;
+    checkGamePlayTimerId,
+    currentTime = 20;
 
 function createGameBoard() {
     for (let i = 0; i < rows; i++) {
@@ -98,8 +99,6 @@ function moveFrog(e) {
     squares[currentIndex].classList.add('frog')
 }
 
-document.addEventListener('keyup', moveFrog);
-
 function autoMoveItems() {
     currentTime--;
     timer.innerHTML = currentTime;
@@ -107,8 +106,6 @@ function autoMoveItems() {
     [...rightLogs].map(item => moveRight(item, item.dataset.type));
     [...leftCars].map(item => moveLeft(item, item.dataset.type));
     [...rightCars].map(item => moveRight(item, item.dataset.type));
-    lose();
-    win();
 }
 
 function moveLeft(item, type) {
@@ -157,4 +154,22 @@ function win() {
     }
 }
 
-timerId = setInterval(autoMoveItems, 1000);
+function checkGamePlayTimer() {
+    lose();
+    win();
+}
+
+function startGame() {
+    if (timerId) {
+        clearInterval(timerId);
+        clearInterval(checkGamePlayTimerId);
+        document.removeEventListener('keyup', moveFrog);
+        timerId = null;
+    } else {
+        timerId = setInterval(autoMoveItems, 1000);
+        checkGamePlayTimerId = setInterval(checkGamePlayTimer, 50);
+        document.addEventListener('keyup', moveFrog);
+    }
+}
+
+startStop.addEventListener('click', startGame);
