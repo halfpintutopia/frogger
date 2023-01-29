@@ -1,0 +1,27 @@
+#grid {
+    border: 1px solid grey;
+    display: grid;
+    grid-template-columns: repeat(9, 20px);
+    width: min-content;
+}
+
+.square {
+    height: 20px;
+    aspect-ratio: 1;
+}
+
+.end {
+    background-color: darkgreen;
+}
+
+.start {
+    background-color: yellow;
+}
+
+.left {
+    background-color: lightblue;
+}
+
+.right {
+    background-color: lightgray;
+}
