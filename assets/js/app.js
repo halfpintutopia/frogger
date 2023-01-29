@@ -10,9 +10,12 @@ let squares,
     rightLogs,
     leftCars,
     rightCars,
+    startSquare,
+    stopSquare,
     currentIndex = 76,
     typeId = 1,
-    timerId;
+    timerId,
+    currentTime = 5;
 
 function createGameBoard() {
     for (let i = 0; i < rows; i++) {
@@ -65,6 +68,8 @@ function createGameBoard() {
     rightLogs = document.querySelectorAll(`[data-type='log'][data-type-obstacle='right']`);
     leftCars = document.querySelectorAll(`[data-type='car'][data-type-obstacle='left']`);
     rightCars = document.querySelectorAll(`[data-type='car'][data-type-obstacle='right']`);
+    startSquare = document.querySelector('[data-game="start"]');
+    endSquare = document.querySelector('[data-game="end"]');
 }
 
 createGameBoard();
@@ -96,11 +101,14 @@ function moveFrog(e) {
 document.addEventListener('keyup', moveFrog);
 
 function autoMoveItems() {
+    currentTime--;
+    timer.innerHTML = currentTime;
     [...leftLogs].map(item => moveLeft(item, item.dataset.type));
     [...rightLogs].map(item => moveRight(item, item.dataset.type));
     [...leftCars].map(item => moveLeft(item, item.dataset.type));
     [...rightCars].map(item => moveRight(item, item.dataset.type));
     lose();
+    win();
 }
 
 function moveLeft(item, type) {
@@ -131,11 +139,20 @@ function moveRight(item, type) {
 function lose() {
     if (
         (squares[currentIndex].dataset.type === 'log' && (squares[currentIndex].dataset.typeId === '4' || squares[currentIndex].dataset.typeId === '5')) ||
-        (squares[currentIndex].dataset.type === 'car' && (squares[currentIndex].dataset.typeId === '2' || squares[currentIndex].dataset.typeId === '3'))
+        (squares[currentIndex].dataset.type === 'car' && (squares[currentIndex].dataset.typeId === '2' || squares[currentIndex].dataset.typeId === '3')) ||
+        currentTime <= 0
     ) {
         result.innerHTML = `Sorry, you lose!`;
         clearInterval(timerId)
         squares[currentIndex].classList.remove('frog');
+        document.removeEventListener('keyup', moveFrog);
+    }
+}
+
+function win() {
+    if (squares[currentIndex].dataset.game === 'end') {
+        result.innerHTML = `Yay, you win!`;
+        clearInterval(timerId)
         document.removeEventListener('keyup', moveFrog);
     }
 }
