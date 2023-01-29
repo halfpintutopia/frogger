@@ -18,20 +18,16 @@
     background-color: yellow;
 }
 
-/*[data-obstacle='left'] {*/
-/*    background-color: lightblue;*/
-/*}*/
+[data-type='log'][data-type-id='1'],
+[data-type='log'][data-type-id='2'],
+[data-type='log'][data-type-id='3'] {
+    background-color: brown;
+}
 
-/*[data-obstacle='right'] {*/
-/*    background-color: lightgray;*/
-/*}*/
+[data-type='car'][data-type-id='1']{
+    background-color: brown;
+}
 
 .frog {
     background-color: forestgreen;
-}
-
-[data-type-id='1'],
-[data-type-id='2'],
-[data-type-id='3'] {
-    background-color: brown;
 }

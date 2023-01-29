@@ -6,8 +6,10 @@ const rows = 9; // Needs to be an odd number
 const columns = rows;
 
 let squares,
-    leftItems,
-    rightItems,
+    leftLogs,
+    rightLogs,
+    leftCars,
+    rightCars,
     currentIndex = 76,
     typeId = 1;
 
@@ -24,24 +26,44 @@ function createGameBoard() {
                 if (j === 4) {
                     square.dataset.game = 'start';
                 }
-            } else if ((i > 1 && i < 4) || (i > 4 && i < 7)) {
+            } else if (i > 1 && i < 4) {
+                if (typeId > 5) typeId = 1;
                 if (i % 2 !== 0) {
                     square.dataset.typeObstacle = 'right';
                     square.dataset.typeId = typeId;
+                    square.dataset.type = 'log';
                     typeId++;
                 } else {
                     square.dataset.typeObstacle = 'left';
                     square.dataset.typeId = typeId;
+                    square.dataset.type = 'log';
                     typeId++;
                 }
-                if (typeId > 5) typeId = 1;
+
+            } else if (i > 4 && i < 7) {
+                if (typeId > 3) typeId = 1;
+                if (i % 2 !== 0) {
+                    square.dataset.typeObstacle = 'right';
+                    square.dataset.typeId = typeId;
+                    square.dataset.type = 'car';
+                    typeId++;
+                } else {
+                    square.dataset.typeObstacle = 'left';
+                    square.dataset.typeId = typeId;
+                    square.dataset.type = 'car';
+
+                    typeId++;
+                }
+
             }
             grid.append(square);
         }
     }
     squares = document.querySelectorAll('.square');
-    leftItems = document.querySelectorAll(`[data-type-obstacle='left']`);
-    rightItems = document.querySelectorAll(`[data-type-obstacle='right']`);
+    leftLogs = document.querySelectorAll(`[data-type='log'][data-type-obstacle='left']`);
+    rightLogs = document.querySelectorAll(`[data-type='log'][data-type-obstacle='right']`);
+    leftCars = document.querySelectorAll(`[data-type='car'][data-type-obstacle='left']`);
+    rightCars = document.querySelectorAll(`[data-type='car'][data-type-obstacle='right']`);
 }
 
 createGameBoard();
@@ -72,33 +94,35 @@ function moveFrog(e) {
 
 document.addEventListener('keyup', moveFrog);
 
-function autoMoveLogs() {
-    [...leftItems].map(item => moveLogLeft(item));
-    [...rightItems].map(item => moveLogRight(item));
+function autoMoveItems() {
+    [...leftLogs].map(item => moveLeft(item, item.dataset.type));
+    [...rightLogs].map(item => moveRight(item, item.dataset.type));
+    [...leftCars].map(item => moveLeft(item, item.dataset.type));
+    [...rightCars].map(item => moveRight(item, item.dataset.type));
 }
 
-function moveLogLeft(item) {
+function moveLeft(item, type) {
     let itemTypeId = parseInt(item.dataset.typeId);
     ++itemTypeId;
-    if (itemTypeId > 5) itemTypeId = 1;
+    if (type === 'log') {
+        if (itemTypeId > 5) itemTypeId = 1;
 
-    switch (true) {
-        case typeof itemTypeId === 'number':
-            item.dataset.typeId = itemTypeId;
-            break;
+    } else {
+        if (itemTypeId > 3) itemTypeId = 1;
     }
+    item.dataset.typeId = itemTypeId;
 }
 
-function moveLogRight(item) {
-    let itemTypeId = parseInt(item.dataset.typeId);
+function moveRight(item, type) {
+     let itemTypeId = parseInt(item.dataset.typeId);
     --itemTypeId;
-    if (itemTypeId < 1) itemTypeId = 5;
+    if (type === 'log') {
+        if (itemTypeId < 1) itemTypeId = 5;
 
-    switch (true) {
-        case typeof itemTypeId === 'number':
-            item.dataset.typeId = itemTypeId;
-            break;
+    } else {
+        if (itemTypeId < 1) itemTypeId = 3;
     }
+    item.dataset.typeId = itemTypeId;
 }
 
-setInterval(autoMoveLogs, 1000);
+setInterval(autoMoveItems, 1000);
