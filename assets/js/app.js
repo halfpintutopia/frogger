@@ -51,7 +51,6 @@ function createGameBoard() {
 createGameBoard();
 
 function moveFrog(e) {
-    console.log(e.key);
     squares[currentIndex].classList.remove('frog')
 
     switch (e.key) {
@@ -65,14 +64,13 @@ function moveFrog(e) {
             break;
         case 'a':
         case 'A':
-            currentIndex === 0 ? currentIndex : currentIndex--;
+            currentIndex % columns === 0 ? currentIndex : currentIndex--;
             break;
         case 'd':
         case 'D':
-            currentIndex === columns * rows - 1 ? currentIndex : currentIndex++;
+            currentIndex % columns === columns - 1 ? currentIndex : currentIndex++;
             break;
     }
-    console.log(currentIndex);
     squares[currentIndex].classList.add('frog')
 }
 
