@@ -11,7 +11,8 @@ let squares,
     leftCars,
     rightCars,
     currentIndex = 76,
-    typeId = 1;
+    typeId = 1,
+    timerId;
 
 function createGameBoard() {
     for (let i = 0; i < rows; i++) {
@@ -99,6 +100,7 @@ function autoMoveItems() {
     [...rightLogs].map(item => moveRight(item, item.dataset.type));
     [...leftCars].map(item => moveLeft(item, item.dataset.type));
     [...rightCars].map(item => moveRight(item, item.dataset.type));
+    lose();
 }
 
 function moveLeft(item, type) {
@@ -114,7 +116,7 @@ function moveLeft(item, type) {
 }
 
 function moveRight(item, type) {
-     let itemTypeId = parseInt(item.dataset.typeId);
+    let itemTypeId = parseInt(item.dataset.typeId);
     --itemTypeId;
     if (type === 'log') {
         if (itemTypeId < 1) itemTypeId = 5;
@@ -125,4 +127,17 @@ function moveRight(item, type) {
     item.dataset.typeId = itemTypeId;
 }
 
-setInterval(autoMoveItems, 1000);
+
+function lose() {
+    if (
+        (squares[currentIndex].dataset.type === 'log' && (squares[currentIndex].dataset.typeId === '4' || squares[currentIndex].dataset.typeId === '5')) ||
+        (squares[currentIndex].dataset.type === 'car' && (squares[currentIndex].dataset.typeId === '2' || squares[currentIndex].dataset.typeId === '3'))
+    ) {
+        result.innerHTML = `Sorry, you lose!`;
+        clearInterval(timerId)
+        squares[currentIndex].classList.remove('frog');
+        document.removeEventListener('keyup', moveFrog);
+    }
+}
+
+timerId = setInterval(autoMoveItems, 1000);
