@@ -1,10 +1,12 @@
 const grid = document.getElementById('grid');
+const timer = document.getElementById('timer');
+const result = document.getElementById('result');
+const startStop = document.getElementById('start-stop');
+const sqaures = document.querySelectorAll('square');
 const rows = 9;
 const columns = 9;
 
 function createGameBoard() {
-    // first row add ending block
-    // third row add log-left class
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             const square = document.createElement('div');
@@ -29,10 +31,15 @@ function createGameBoard() {
                     square.classList.add('square', 'right');
                 }
             }
-
             grid.append(square);
         }
     }
 }
 
 createGameBoard();
+
+function moveFrog() {
+    console.log('moved');
+}
+
+document.addEventListener('keyup', moveFrog);
